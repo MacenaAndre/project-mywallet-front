@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AppContext from "./contexts/AppContext";
-import { WrapperForm } from "./styled-components"
+import { WrapperFormLogin } from "./styled-components"
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Login () {
@@ -17,7 +17,7 @@ export default function Login () {
 
     return (
         <>
-            <WrapperForm>
+            <WrapperFormLogin>
                 <h1>MyWallet</h1>
                 <form onSubmit={LoginConecction}>
                     <input
@@ -38,8 +38,8 @@ export default function Login () {
                         ></input>
                     {!buttonLogin ? <button>Entrar</button> : <button disabled={buttonLogin}><ThreeDots color="#FFFFFF" width={60} height={60}/></button> }
                 </form>
-                <Link to="/cadastro">Primeira Vez? Cadastre-se!</Link>
-            </WrapperForm>
+                <Link to="/register">Primeira Vez? Cadastre-se!</Link>
+            </WrapperFormLogin>
         </>
     );
 }

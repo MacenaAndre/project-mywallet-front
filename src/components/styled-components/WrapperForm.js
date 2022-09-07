@@ -1,29 +1,78 @@
 import styled from "styled-components";
 
-export default function WrapperForm ({ children }) {
+function WrapperFormLogin ({ children }) {
     return (
-        <Wrapper>
-            {children}
-        </Wrapper>
+        <Login>
+            <Wrapper>
+                {children}
+            </Wrapper>
+        </Login>
+    );
+};
+
+function WrapperFormRegister ({ children }) {
+    return (
+        <Register>
+            <Wrapper>
+                {children}
+            </Wrapper>
+        </Register>
+    );
+};
+
+function WrapperFormEntry ({children}) {
+    return (
+        <Entry>
+            <Wrapper>
+                {children}
+            </Wrapper>
+        </Entry>
     );
 }
 
+const Login = styled.div`
+    & div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        background-color: #8C11BE;
+        padding-top: 185px;
+    }
+`;
+
+const Register = styled.div`
+    & div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 100vh;
+        background-color: #8C11BE;
+    }
+`;
+
+const Entry = styled.div`
+    & div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 100vh;
+        background-color: #8C11BE;
+        padding: 15px;
+    }
+`
+
 const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    background-color: #8C11BE;
 
     &  h1 {
         font-family: 'Saira Stencil One', cursive;
-        font-size: 32px;
+        font-size: 45px;
         font-weight: 400;
         line-height: 50px;
         color: #FFFFFF;
-        margin-top: 185px;
     }
     
     input {
@@ -91,3 +140,5 @@ const Wrapper = styled.div`
         height: auto;
     }
 `;
+
+export {WrapperFormLogin, WrapperFormRegister, WrapperFormEntry}
