@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
-import { ThreeDots } from "react-loader-spinner";
+import spinner from "../assets/img/spinner.gif"; 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { newEntryApi } from "../service/myWalletService";
 import AppContext from "./contexts/AppContext";
 import { WrapperFormEntry, Header } from "./styled-components";
 
 export default function NewEntry () {
-    const { isIncome } = useContext(AppContext);
+    const { isIncome, setRefresh, refresh } = useContext(AppContext);
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("")
     const [buttonEntry, setButtonEntry] = useState("");
@@ -19,8 +20,30 @@ export default function NewEntry () {
         entryText = "saída";
     }
 
-    function EntryConecction () {
-    
+    function EntryPost (e) {
+        e.preventDefault();
+
+        const numbValue = Number(value?.split(",").join(".")).toFixed(2);
+
+        if(isNaN(numbValue)) alert("Por favor insira um numero com até duas casas decimais!");
+
+        const body = {
+            value: numbValue * 100,
+            description,
+            isIncome
+        };
+
+        newEntryApi(body)
+            .then(() => {
+                setRefresh(!refresh);
+                navigate("/history")
+            })
+            .catch((res) => {
+                alert(res.response.data.message);
+                setButtonEntry(false);
+            });
+
+        setButtonEntry(true)
     };
 
     return (
@@ -32,7 +55,7 @@ export default function NewEntry () {
                             <h4 onClick={() => navigate("/history")}>x</h4>
                     </Header>
                 </Adjust>
-                <form onSubmit={EntryConecction}>
+                <form onSubmit={EntryPost}>
                     <input
                         placeholder="Valor"
                         type="text"
@@ -42,14 +65,14 @@ export default function NewEntry () {
                         required
                         ></input>
                     <input
-                        placeholder="Senha"
-                        type="password"
+                        placeholder="Descrição"
+                        type="text"
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}
                         disabled={buttonEntry}
                         required
                         ></input>
-                    {!buttonEntry ? <button>Salvar {entryText}</button> : <button disabled={buttonEntry}><ThreeDots color="#FFFFFF" width={60} height={60}/></button> }
+                    {!buttonEntry ? <button>Salvar {entryText}</button> : <button disabled={buttonEntry}><img src={spinner} alt="spinner"></img></button> }
                 </form>
             </WrapperFormEntry>
         </>

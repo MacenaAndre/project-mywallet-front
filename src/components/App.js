@@ -8,14 +8,14 @@ import History from "./History";
 import NewEntry from "./NewEntry";
 
 export default function App () {
-    const [login, setLogin] = useState({});
+    const [refresh, setRefresh] = useState(false);
     const [isIncome, setIsIncome] = useState(false);
 
     return (
         <>
             <GlobalStyle />
             <BrowserRouter>
-                <AppContext.Provider value={{login, setLogin, isIncome, setIsIncome}}>
+                <AppContext.Provider value={{refresh, setRefresh, isIncome, setIsIncome}}>
                     <Routes>
                         <Route path="/" element={<Login />}></Route>
                         <Route path="/register" element={<Register />}></Route>

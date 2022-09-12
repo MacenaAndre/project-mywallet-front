@@ -2,18 +2,39 @@ import styled from "styled-components"
 import LogoutIcon from "../assets/img/Logout.png"
 import AddIcon from "../assets/img/add.png"
 import MinusIcon from "../assets/img/remove.png"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Header } from "./styled-components"
 import AppContext from "./contexts/AppContext"
-import { logOutApi } from "../service/myWalletService"
+import { logOutApi, readDataApi } from "../service/myWalletService"
+import Entry from "./Entry"
 
 export default function History () {
-    const {setIsIncome} = useContext(AppContext);
+    const {setIsIncome, refresh} = useContext(AppContext);
+    const [name, setName] = useState("");
+    const [userHistory, setUserHistory] = useState("");
     const navigate = useNavigate();
 
+    function getTotal() {
+        
+        let total = 0;
+
+        if(userHistory.length > 0) {
+            userHistory.forEach((value) => {
+                if(value.isIncome) {
+                    total = total + (value.value * 100)
+                } else {
+                    total = total - (value.value * 100)
+                }
+            });
+            let result = (total/100);
+            return result;
+        };
+        return; 
+    };
+
     function logOut() {
-        const confirm = window.confirm("Você tem certeza que deseja sair");
+        const confirm = window.confirm("Você tem certeza que deseja sair?");
 
         if(confirm) {
             logOutApi()
@@ -23,18 +44,47 @@ export default function History () {
                 .catch((res) => {
                     alert(res.response.data.message);
                 })
-        }
-    }
+        };
+    };
+
+    useEffect(() => {
+        readDataApi()
+            .then((res) => {
+                setName(res.data.name);
+                setUserHistory(res.data.history);
+            })
+            .catch(() => {
+                localStorage.clear("mwWallet");
+                navigate("/")
+            })
+    }, [navigate, refresh]);
 
     return (
         <WrapperHistory>
             <Header>
-                <h2>Olá, Fulano</h2>
+                <h2>Olá, {name}</h2>
                 <img src={LogoutIcon} alt="Logout" title="Log Out" onClick={() => logOut()}/>
             </Header>
-            <Content>
-                <h1>Não há registros de entradas ou saídas</h1>
-            </Content>
+            
+                {userHistory.length < 1 ? 
+                    <Content><h1>Não há registros de entradas ou saídas</h1></Content>
+                : 
+                    <ContentFilled>
+                        {userHistory.map((value, index) => (
+                        <Entry
+                            key={index}
+                            date={value.date}
+                            description={value.description}
+                            value={value.value}
+                            isIncome={value.isIncome}
+                        />
+                    ))}
+                        <Total><h3>SALDO</h3> {Number(getTotal()) > 0 ? <h4>{getTotal()}</h4> : <h5>{getTotal()}</h5>}</Total>
+                    </ContentFilled>
+                    
+                
+                }
+            
             <Buttons>
                 <div onClick={() => {
                     setIsIncome(true);
@@ -115,3 +165,32 @@ const Buttons =  styled.div`
         color: #FFFFFF;
     }
 `
+const ContentFilled = styled.div`
+    width: 100%;
+    height: 66vh;
+    padding: 12px;
+    border-radius: 5px;
+    margin-top: 22px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+`
+const Total = styled.div`
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    width: 92%;
+    display: flex;
+    justify-content: space-between;
+    
+    & h3 {
+        font-weight: 700;
+    }
+    h4 {
+        color: #03AC00;
+    }
+    h5 {
+        color: #C70000;
+    }
+`;

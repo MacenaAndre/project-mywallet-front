@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AppContext from "./contexts/AppContext";
 import { WrapperFormLogin } from "./styled-components"
 import { logInApi } from "../service/myWalletService";
 import spinner from "../assets/img/spinner.gif";
@@ -9,7 +8,6 @@ export default function Login () {
     const [emailLogin, setEmailLogin] = useState("");
     const [passwordLogin, setPasswordLogin] = useState("");
     const [buttonLogin, setButtonLogin] = useState(false);
-    const {setLogin} = useContext(AppContext);
     const navigate = useNavigate();
 
     function LoginConecction (e) {
