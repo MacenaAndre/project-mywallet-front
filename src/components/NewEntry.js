@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import spinner from "../assets/img/spinner.gif"; 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { newEntryApi } from "../service/myWalletService";
+import { newEntryApi, readDataApi } from "../service/myWalletService";
 import AppContext from "./contexts/AppContext";
 import { WrapperFormEntry, Header } from "./styled-components";
 
@@ -19,6 +19,16 @@ export default function NewEntry () {
     } else {
         entryText = "saída";
     }
+
+    useEffect(() => {
+        readDataApi()
+            .then(() => {
+            })
+            .catch(() => {
+                localStorage.clear("mwWallet");
+                navigate("/")
+            })
+    }, [navigate]);
 
     function EntryPost (e) {
         e.preventDefault();
