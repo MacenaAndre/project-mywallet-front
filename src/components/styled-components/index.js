@@ -1,4 +1,4 @@
-import {WrapperFormLogin, WrapperFormRegister, WrapperFormEntry} from "./WrapperForm";
+import { WrapperFormLogin, WrapperFormRegister, WrapperFormEntry } from "./WrapperForm";
 import { GlobalStyle } from "./GlobalStyles";
 import { Header }from "./Header";
 

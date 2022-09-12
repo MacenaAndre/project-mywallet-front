@@ -12,7 +12,25 @@ export default function Register() {
     const [button, setButton] = useState(false);
     const navigate = useNavigate();
 
-    function RegisterConnection () {
+    function RegisterConnection (e) {
+        e.preventDefault();
+
+        const body = {
+            name,
+            email,
+            password,
+            confirm_password: confirmPassword
+        };
+
+        const promise = axios.post("http://localhost:5000/register", body);
+        promise.then(() => {
+            navigate("/");
+        }).catch((res) => {
+            setButton(false);
+            alert(res.response.data.message?.replace("[ref:password]", "equal to password"));
+        });
+
+        setButton(true);
 
     }
     return (
