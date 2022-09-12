@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { WrapperFormRegister } from "./styled-components"
 import { useState } from "react";
-import axios from "axios";
-import { ThreeDots } from "react-loader-spinner"; 
+import spinner from "../assets/img/spinner.gif"; 
+import { registerApi } from "../service/myWalletService";
 
 export default function Register() {
     const [name, setName] = useState("");
@@ -22,8 +22,7 @@ export default function Register() {
             confirm_password: confirmPassword
         };
 
-        const promise = axios.post("http://localhost:5000/register", body);
-        promise.then(() => {
+        registerApi(body).then(() => {
             navigate("/");
         }).catch((res) => {
             setButton(false);
@@ -69,7 +68,7 @@ export default function Register() {
                      disabled={button}
                      required
                      ></input>
-                {!button ? <button>Cadastrar</button> : <button disabled={button}><ThreeDots color="#FFFFFF" width={60} height={60}/></button> }
+                {!button ? <button>Entrar</button> : <button disabled={button}><img src={spinner} alt="spinner"></img></button> }
             </form>
             <Link to="/">Já tem uma conta? Entre Agora!</Link>
         </WrapperFormRegister>

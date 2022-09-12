@@ -6,16 +6,31 @@ import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { Header } from "./styled-components"
 import AppContext from "./contexts/AppContext"
+import { logOutApi } from "../service/myWalletService"
 
 export default function History () {
     const {setIsIncome} = useContext(AppContext);
     const navigate = useNavigate();
 
+    function logOut() {
+        const confirm = window.confirm("Você tem certeza que deseja sair");
+
+        if(confirm) {
+            logOutApi()
+                .then(() => {
+                    navigate("/");
+                })
+                .catch((res) => {
+                    alert(res.response.data.message);
+                })
+        }
+    }
+
     return (
         <WrapperHistory>
             <Header>
                 <h2>Olá, Fulano</h2>
-                <img src={LogoutIcon} alt="Logout"/>
+                <img src={LogoutIcon} alt="Logout" title="Log Out" onClick={() => logOut()}/>
             </Header>
             <Content>
                 <h1>Não há registros de entradas ou saídas</h1>

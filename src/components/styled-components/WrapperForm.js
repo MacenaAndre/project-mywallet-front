@@ -94,7 +94,7 @@ const Wrapper = styled.div`
         color: #000000;
     }
     input:disabled {
-        background-color: #F2F2F2;
+        background-color: lightgray;
         color: #AFAFAF;
     }
     button {
@@ -115,10 +115,14 @@ const Wrapper = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        
 
+        img {
+            width: 80px;
+            height: 80px;
+        }
     }
     button:disabled {
+        background-color: #FFFFFF;
         opacity: 0.7;
     }
     a {
@@ -128,8 +132,8 @@ const Wrapper = styled.div`
         line-height: 18px;
         text-align: center;
         color: #FFFFFF;
-
     }
+    
     form {
         display: flex;
         flex-direction: column;

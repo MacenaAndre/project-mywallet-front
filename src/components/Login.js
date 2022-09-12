@@ -2,7 +2,8 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AppContext from "./contexts/AppContext";
 import { WrapperFormLogin } from "./styled-components"
-import { ThreeDots } from "react-loader-spinner";
+import { logInApi } from "../service/myWalletService";
+import spinner from "../assets/img/spinner.gif";
 
 export default function Login () {
     const [emailLogin, setEmailLogin] = useState("");
@@ -11,8 +12,23 @@ export default function Login () {
     const {setLogin} = useContext(AppContext);
     const navigate = useNavigate();
 
-    function LoginConecction () {
+    function LoginConecction (e) {
+        e.preventDefault();
 
+        const body = {
+            email: emailLogin,
+            password: passwordLogin
+        };
+
+        logInApi(body).then((res) => {
+            localStorage.setItem("myWallet", JSON.stringify({token: res.data.token}));
+            navigate("/history");
+        }).catch((res) => {
+            setButtonLogin(false);
+            alert(res.response.data.message);
+        });
+
+        setButtonLogin(true);
     };
 
     return (
@@ -36,7 +52,7 @@ export default function Login () {
                         disabled={buttonLogin}
                         required
                         ></input>
-                    {!buttonLogin ? <button>Entrar</button> : <button disabled={buttonLogin}><ThreeDots color="#FFFFFF" width={60} height={60}/></button> }
+                    {!buttonLogin ? <button>Entrar</button> : <button disabled={buttonLogin}><img src={spinner} alt="spinner"></img></button> }
                 </form>
                 <Link to="/register">Primeira Vez? Cadastre-se!</Link>
             </WrapperFormLogin>
