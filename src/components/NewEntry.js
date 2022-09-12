@@ -10,7 +10,7 @@ export default function NewEntry () {
     const { isIncome, setRefresh, refresh } = useContext(AppContext);
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("")
-    const [buttonEntry, setButtonEntry] = useState("");
+    const [buttonEntry, setButtonEntry] = useState(false);
     const navigate = useNavigate();
     let entryText = "";
 

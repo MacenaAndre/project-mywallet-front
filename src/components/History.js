@@ -73,6 +73,7 @@ export default function History () {
                         {userHistory.map((value, index) => (
                         <Entry
                             key={index}
+                            id={value._id}
                             date={value.date}
                             description={value.description}
                             value={value.value}

@@ -6,7 +6,7 @@ function createHeaders() {
     const auth = JSON.parse(localStorage.getItem("myWallet"));
 
     if(!auth) return;
-    
+
     const config = {
         headers: {
             Authorization: `Bearer ${auth.token}`
@@ -43,4 +43,10 @@ function newEntryApi(body) {
     return promise;
 };
 
-export {registerApi, logInApi, logOutApi, newEntryApi, readDataApi};
+function deleteEntryApi(id) {
+    const config = createHeaders();
+    const promise = axios.delete(`${BASE_URL}/data/${id}`, config);
+    return promise;
+}
+
+export {registerApi, logInApi, logOutApi, newEntryApi, readDataApi, deleteEntryApi};
