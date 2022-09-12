@@ -76,7 +76,7 @@ const Wrapper = styled.div`
     
     input {
         height: 58px;
-        width: 326px;
+        width: 95%;
         border-radius: 5px;
         background-color: #FFFFFF;
         border: none;
@@ -99,7 +99,7 @@ const Wrapper = styled.div`
     }
     button {
         height: 46px;
-        width: 326px;
+        width: 95%;
         border-radius: 5px;
         background-color: #A328D6;
         box-shadow: none;

@@ -80,7 +80,7 @@ export default function History () {
                             isIncome={value.isIncome}
                         />
                     ))}
-                        <Total><h3>SALDO</h3> {Number(getTotal()) > 0 ? <h4>{getTotal()}</h4> : <h5>{getTotal()}</h5>}</Total>
+                        <Total><h3>SALDO</h3> {Number(getTotal()) > 0 ? <h4>{getTotal().toFixed(2)}</h4> : <h5>{getTotal().toFixed(2)}</h5>}</Total>
                     </ContentFilled>
                     
                 
@@ -179,9 +179,10 @@ const ContentFilled = styled.div`
 `
 const Total = styled.div`
     position: absolute;
-    bottom: 12px;
-    left: 12px;
-    width: 92%;
+    bottom: 0px;
+    left: 0px;
+    padding: 12px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     
